@@ -1,14 +1,12 @@
 package com.example.codeclan.lab.controllers;
 
+import com.example.codeclan.lab.models.Course;
 import com.example.codeclan.lab.models.Customer;
 import com.example.codeclan.lab.repositories.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -44,4 +42,30 @@ public class CustomerController {
 
     //    Get all customers in a given town for a given course
     //    Get all customers over a certain age in a given town. for a given course
+
+    @GetMapping("/{id}")
+    public ResponseEntity getCustomers(@PathVariable Long id){
+        return new ResponseEntity<>(customerRepository, HttpStatus.OK);
+    }
+
+    @PostMapping
+    public ResponseEntity<Customer> postCustomers(@RequestBody Customer customer){
+        customerRepository.save(customer);
+        return new ResponseEntity<>(customer, HttpStatus.CREATED);
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<Customer> putCustomers(@RequestBody Customer customer, @PathVariable Long id) {
+        if (customer.getId().longValue() != id){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        customerRepository.save(customer);
+        return new ResponseEntity<>(customer, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<List<Customer>> deleteCustomers(@PathVariable Long id){
+        customerRepository.deleteById(id);
+        return new ResponseEntity<>(customerRepository.findAll(), HttpStatus.OK);
+    }
 }
