@@ -28,18 +28,18 @@ public class BookingController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity getCourses(@PathVariable Long id){
+    public ResponseEntity getBooking(@PathVariable Long id){
         return new ResponseEntity<>(bookingRepository, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<Booking> postCourses(@RequestBody Booking booking){
+    public ResponseEntity<Booking> postBookings(@RequestBody Booking booking){
         bookingRepository.save(booking);
         return new ResponseEntity<>(booking, HttpStatus.CREATED);
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Booking> putCourses(@RequestBody Booking booking, @PathVariable Long id) {
+    public ResponseEntity<Booking> putBookings(@RequestBody Booking booking, @PathVariable Long id) {
         if (booking.getId().longValue() != id){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -48,7 +48,7 @@ public class BookingController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<List<Booking>> deleteCourses(@PathVariable Long id){
+    public ResponseEntity<List<Booking>> deleteBookings(@PathVariable Long id){
         bookingRepository.deleteById(id);
         return new ResponseEntity<>(bookingRepository.findAll(), HttpStatus.OK);
     }
